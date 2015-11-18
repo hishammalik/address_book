@@ -17,7 +17,7 @@ class ContactsController < ApplicationController
   def create
     @contact = Contact.new(contact_params)
     if @contact.save
-      redirect_to({action: :index}, notice: "Contact Saved!")
+      redirect_to({action: :index}, notice: I18n.t('activerecord.notice.models.contact.saved'))
     else
       render action: :new
     end        
@@ -35,7 +35,7 @@ class ContactsController < ApplicationController
     @contact = Contact.find(params[:id])
     
     if @contact.update_attributes(contact_params)
-      redirect_to({action: :index}, notice: "Contact Saved!")
+      redirect_to({action: :index}, notice: I18n.t('activerecord.notice.models.contact.updated'))
     else
       render action: :edit
     end        
@@ -44,16 +44,16 @@ class ContactsController < ApplicationController
   def destroy
     @contact = Contact.find(params[:id])
     @contact.destroy
-    redirect_to({action: :index}, notice: "Contact Destroyed!")
+    redirect_to({action: :index}, notice: I18n.t('activerecord.notice.models.contact.destroyed'))
   end
     
   def import
     #imports contacts from CSV file uploaded
     errors = Contact.import(params[:file])
     if errors.empty?
-      redirect_to({action: :index}, notice: "Contacts imported.")
+      redirect_to({action: :index}, notice: I18n.t('activerecord.notice.models.contact.imported'))
     else
-      redirect_to({action: :index}, alert: "Contacts imported with errors: #{errors.join('<br/>')}".html_safe)
+      redirect_to({action: :index}, alert: "#{I18n.t('activerecord.alert.models.contact.imported_with_errors')}: #{errors.join('<br/>')}".html_safe)
     end
   end
   

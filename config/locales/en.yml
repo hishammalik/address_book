@@ -27,4 +27,15 @@ en:
           attributes:
             base:
               one_phone_or_email_required: At least one phone or email is required
+    notice:
+      models:
+        contact:
+          saved: Contact Saved!
+          updated: Contact Updated!
+          destroyed: Contact Destroyed!
+          imported: Contacts imported!
+    alert:
+      models:
+        contact:
+          imported_with_errors: Contacts imported with errors
   hello: "Hello world"
