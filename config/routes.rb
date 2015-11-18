@@ -53,4 +53,12 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  
+  resources :contacts do
+    collection do
+      post :import
+      post :search
+    end
+  end
+  root 'contacts#index'
 end

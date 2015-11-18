@@ -1,0 +1,22 @@
+<%= grid(@contacts_grid, show_filters: :always) do |g|
+   g.blank_slate  do
+     "There are no records"
+   end
+   g.column name: 'First Name', attribute: 'first_name'
+   g.column name: 'Last Name', attribute: 'last_name'
+   g.column name: 'Email Addresses' do |contact|
+    contact.emails.map{|email| mail_to email.address}.join('<br/>').html_safe
+   end
+   g.column name: 'Phone Numbers' do |contact|
+    contact.phones.map(&:number).join('<br/>').html_safe
+   end
+   g.column in_csv: false do |contact|
+    link_to('Show', contact)
+   end
+   g.column in_csv: false do |contact|
+     link_to('Edit', edit_contact_path(contact))
+      end
+g.column in_csv: false do |contact|
+     link_to('Delete', contact, method: :delete)
+  end
+end%>

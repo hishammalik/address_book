@@ -1,0 +1,21 @@
+= semantic_form_for @contact do |f|
+  - if @contact.errors.full_messages.any?
+    - @contact.errors.full_messages.each do |error_message|
+      div = error_message
+  = f.input :first_name
+  = f.input :last_name
+  h3 Emails
+  #emails
+    = f.semantic_fields_for :emails do |email|
+      = render 'email_fields', f: email
+    .links
+      = link_to_add_association 'add email', f, :emails
+  h3 Phones
+  #phones
+    = f.semantic_fields_for :phones do |phone|
+      = render 'phone_fields', f: phone
+    .links
+      = link_to_add_association 'add phone', f, :phones
+  = f.actions do
+    = f.action :submit, as: :button
+    = f.action :cancel, as: :link
