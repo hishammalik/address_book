@@ -23,6 +23,10 @@ class ContactsController < ApplicationController
     end        
   end
   
+  def show
+    @contact = Contact.find(params[:id])
+  end
+  
   def edit
     @contact = Contact.find(params[:id])
   end
@@ -45,8 +49,12 @@ class ContactsController < ApplicationController
     
   def import
     #imports contacts from CSV file uploaded
-    Contact.import(params[:file])
-    redirect_to({action: :index}, notice: "Contacts imported.")
+    errors = Contact.import(params[:file])
+    if errors.empty?
+      redirect_to({action: :index}, notice: "Contacts imported.")
+    else
+      redirect_to({action: :index}, alert: "Contacts imported with errors: #{errors.join('<br/>')}".html_safe)
+    end
   end
   
   def contact_params

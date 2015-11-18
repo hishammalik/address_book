@@ -54,3 +54,4 @@ gem "wice_grid", '3.6.0.pre4'
 gem 'font-awesome-sass',  '~> 4.3'
 gem 'formtastic', '~> 3.0'
 gem "cocoon"
+gem 'jquery-validation-rails'

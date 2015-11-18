@@ -1,11 +1,23 @@
-= semantic_form_for @contact do |f|
-  - if @contact.errors.full_messages.any?
-    - @contact.errors.full_messages.each do |error_message|
-      div = error_message
-  = f.input :first_name
-  = f.input :last_name
-  = f.input :email_address
-  = f.input :phone_number
-  = f.actions do
-    = f.action :submit, as: :button
-    = f.action :cancel, as: :link
+table
+  tr.first-name 
+    th.label First Name
+    td.value = @contact.first_name
+  tr.last-name 
+    th.label Last Name
+    td.value = @contact.last_name
+  tr.email
+    th.label Email Addresses
+    td.value
+      = @contact.emails.map{|email| mail_to email.address}.join('<br/>').html_safe
+  tr.phone
+    th.label Phone Numbers
+    td.value
+      = @contact.phones.map(&:number).join('<br/>').html_safe
+  tr.actions
+    th.label Actions
+    td.value 
+      = link_to('Edit', edit_contact_path(@contact)) 
+      | &nbsp;| 
+      = link_to('Delete', @contact, method: :delete) 
+      | &nbsp;| 
+      = link_to('Back', contacts_path)

@@ -27,31 +27,42 @@ class Contact < ActiveRecord::Base
   
   class << self
     def import(file)
-      errors = {}
+      errors = []
       CSV.foreach(file.path, headers: true) do |row|
 
         contact_hash = row.to_hash # exclude the price field
         contact = Contact.where(
           first_name: contact_hash['First Name'],
-          last_name: contact_hash['Last Name']).first_or_create
-
-        unless contact.errors.any?
-          email_addresses = contact_hash['Email Addresses'].split(';')
+          last_name: contact_hash['Last Name']
+        ).first_or_initialize
+        
+        email_addresses = contact_hash['Email Addresses'] && contact_hash['Email Addresses'].split(';') || []
+        phone_numbers = contact_hash['Phone Numbers'] && contact_hash['Phone Numbers'].split(';') || []
+        
+        if contact.new_record?
           email_addresses.each do |email_address|
-            email = contact.email.where(email_address: email_address).first_or_create
-            errors = errors + email.errors.full_messages if email.errors.any?            
+            email = contact.emails.build(address: email_address)
           end
           
-          phone_numbers = contact_hash['Phone Numbers'].split(';')
           phone_numbers.each do |phone_number|
-            phone = contact.email.where(email_address: phone_number).first_or_create
-            errors = errors + phone.errors.full_messages if phone.errors.any?            
+            phone = contact.phones.build(number: phone_number)
           end
+          contact.save
+          errors << {row: contact_hash, error: contact.errors.full_messages} if contact.errors.any?
         else
-          errors = errors + contact.errors.full_messages
+          email_addresses.each do |email_address|
+            email = contact.emails.where(address: email_address).first_or_create
+            errors << {row: contact_hash, error: email.errors.full_messages} if email.errors.any?            
+          end
+          
+          phone_numbers.each do |phone_number|
+            phone = contact.phones.where(number: phone_number).first_or_create
+            errors << {row: contact_hash, error: phone.errors.full_messages} if phone.errors.any?            
+          end
+          
         end
-      end      
+      end
       errors
-    end    
+    end
   end
 end

@@ -1,3 +1,35 @@
 // Place all the styles related to the Contacts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+body {
+  font-family: arial;
+}
+
+.formtastic {
+  li {
+    list-style: none;
+    line-height: 30px;
+  }
+  input {
+    margin-left: 5px;
+  }
+}
+
+.alert-notice {
+  color: green;
+}
+
+.alert-alert, .alert-error {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.error{
+  color: red;
+}
+
+.inline-errors {
+  display: inline;
+  color: red;
+}

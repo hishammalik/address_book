@@ -20,4 +20,11 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  activerecord:
+    errors:
+      models:
+        contact:
+          attributes:
+            base:
+              one_phone_or_email_required: At least one phone or email is required
   hello: "Hello world"

@@ -1,7 +1,7 @@
 = semantic_form_for @contact do |f|
   - if @contact.errors.full_messages.any?
     - @contact.errors.full_messages.each do |error_message|
-      div = error_message
+      div.alert-error = error_message
   = f.input :first_name
   = f.input :last_name
   h3 Emails
